@@ -10,4 +10,14 @@
     <Folder Include="Contracts\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Architecture.Common\Architecture.Common.csproj" />
+    <ProjectReference Include="..\Architecture.Data\Architecture.Data.csproj" />
+    <ProjectReference Include="..\Architecture.ViewModels\Architecture.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>
