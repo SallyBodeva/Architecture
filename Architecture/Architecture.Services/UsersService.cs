@@ -34,30 +34,50 @@ namespace Architecture.Services
 
         public async Task<string> CreateUserAsync(CreateUserViewModel model)
         {
+            string userAddress = model.Address;
+            string userTown = model.Town;
+            Town town = await context.Towns.FirstOrDefaultAsync(x=>x.Name==userTown);
+            Address address = await context.Addresses.FirstOrDefaultAsync(x => x.Name == userAddress);
+            if (town==null)
+            {
+                town = new Town() { Name = userTown };
+            }
+            if (address==null)
+            {
+                address = new Address() { Name = userAddress, Town = town };
+            }
             User user = new User()
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                UserName = model.Email
+                UserName = model.Email,
+                Address = address,
+                PhoneNumber = model.PhoneNumber
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
-            //if (result.Succeeded)
-            //{
-            //    if (userManager.Users.Count() <= 1)
-            //    {
-            //        IdentityRole roleUser = new IdentityRole() { Name = GlobalConstants.UserRole };
-            //        IdentityRole roleAdmin = new IdentityRole() { Name = GlobalConstants.AdminRole };
-            //        await roleManager.CreateAsync(roleUser);
-            //        await roleManager.CreateAsync(roleAdmin);
-            //        await userManager.AddToRoleAsync(user, GlobalConstants.AdminRole);
-            //    }
-            //    else
-            //    {
-            //        await userManager.AddToRoleAsync(user, GlobalConstants.UserRole);
-            //    }
-            //}
+            if (result.Succeeded)
+            {
+                if (userManager.Users.Count() <= 1)
+                { 
+                    IdentityRole roleAdmin = new IdentityRole() { Name = GlobalConstants.AdminRole };
+                    IdentityRole roleClient = new IdentityRole() { Name = GlobalConstants.ClientRole };
+                    IdentityRole roleEmployee = new IdentityRole() { Name = GlobalConstants.EmployeeRole };
+                    await roleManager.CreateAsync(roleAdmin);
+                    await roleManager.CreateAsync(roleEmployee);
+                    await roleManager.CreateAsync(roleEmployee);
+                    await userManager.AddToRoleAsync(user, GlobalConstants.AdminRole);
+                }
+                else if(model.Role=="Employee")
+                {
+                    await userManager.AddToRoleAsync(user, GlobalConstants.EmployeeRole);
+                }
+                else
+                {
+                    await userManager.AddToRoleAsync(user, GlobalConstants.ClientRole);
+                }
+            }
             return user.Id;
         }
 
