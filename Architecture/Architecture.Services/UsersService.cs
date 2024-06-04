@@ -41,10 +41,12 @@ namespace Architecture.Services
             if (town==null)
             {
                 town = new Town() { Name = userTown };
+                await context.Towns.AddAsync(town);
             }
             if (address==null)
             {
                 address = new Address() { Name = userAddress, Town = town };
+                await context.Addresses.AddAsync(address);
             }
             User user = new User()
             {
