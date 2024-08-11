@@ -1,4 +1,4 @@
-using Architecture.Web.Models;
+using Architecture.ViewModels.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

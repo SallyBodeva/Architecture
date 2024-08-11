@@ -1,4 +1,4 @@
-namespace Architecture.Web.Models
+namespace Architecture.ViewModels.Shared
 {
     public class ErrorViewModel
     {
