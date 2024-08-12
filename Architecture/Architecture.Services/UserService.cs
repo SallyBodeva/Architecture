@@ -44,7 +44,6 @@
                 context.Addresses.Add(address);
                 context.SaveChanges();
             }
-
             User user = new User()
             {
                 FirstName = model.FirstName,

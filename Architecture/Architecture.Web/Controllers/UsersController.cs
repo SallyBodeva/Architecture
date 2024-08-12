@@ -28,7 +28,7 @@ namespace Architecture.Web.Controllers
             if (ModelState.IsValid)
             {
                 await service.CreateUserAsync(model);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
             return View(model);
         }
