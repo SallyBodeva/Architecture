@@ -10,7 +10,7 @@ namespace Architecture.Common
     {
         public const string EmployeeRole = "Employee";
         public const string ClientRole = "Client";
-        public const string Admin = "Admin";
+        public const string AdminRole = "Admin";
         public const string DefaultImage = "-";
     }
 }

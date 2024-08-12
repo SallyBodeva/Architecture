@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Architecture.ViewModels.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Architecture.Services.Contracts
 {
     public interface IUserService
     {
+        public Task<string> CreateUserAsync(CreateUserViewModel model);
     }
 }
+

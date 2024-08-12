@@ -1,5 +1,7 @@
 using Architecture.Data;
 using Architecture.Data.Models;
+using Architecture.Services;
+using Architecture.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,7 +34,10 @@ namespace Architecture.Web
                  .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
-            var app = builder.Build();
+			builder.Services.AddTransient<IUserService, UserService>();
+
+			var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
