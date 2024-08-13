@@ -11,6 +11,8 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+
     public class UserService : IUserService
     {
         private readonly UserManager<User> userManager;
@@ -82,11 +84,48 @@
                         await userManager.AddToRoleAsync(user, GlobalConstants.EmployeeRole);
                         user.Role = GlobalConstants.EmployeeRole;
                     }
-                   
+
                 }
                 await userManager.UpdateAsync(user);
             }
             return user.Id;
+        }
+
+        public async Task<DetailsUserViewModel?> GetUserDetailsAsync(string id)
+        {
+            DetailsUserViewModel? result = null;
+
+            User user = await userManager.FindByIdAsync(id);
+
+            Dictionary<string,Project> neededInfoForProjects = new Dictionary<string,Project>();
+
+            List<string> userProjectsName = context.Users
+                .FirstOrDefault(x => x.Id == id).ProjectUsers.Select(x => x.Project.Name).ToList();
+            List<Project> userProjects = context.Users
+              .FirstOrDefault(x => x.Id == id).ProjectUsers.Select(x => x.Project).ToList();
+
+
+            for (int i = 0; i < userProjectsName.Count; i++)
+            {
+                neededInfoForProjects.Add(userProjectsName[i], userProjects[i]);
+            }
+
+            if (user != null)
+            {
+
+                result = new DetailsUserViewModel()
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email != null ? user.Email : "n/a",
+                    Address = user.Address.Name,
+                    Town = user.Address.Town.Name,
+                    Department = user.Department != null ? user.Department : "n/a",
+                    Projects = neededInfoForProjects
+                };     
+            }
+            return result;
         }
     }
 }
