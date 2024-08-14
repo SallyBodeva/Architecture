@@ -16,6 +16,8 @@ namespace Architecture.Data.Models
         public string AddressId { get; set; }
         public virtual Address Address { get; set; }
 
+        public string? ProfileImage { get; set; }
+
         public string? Department { get; set; }
         public string? Role { get; set; }
         public virtual ICollection<ProjectUser> ProjectUsers { get; set; } = new List<ProjectUser>();

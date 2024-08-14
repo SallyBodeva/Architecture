@@ -12,6 +12,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Http;
 
     public class UserService : IUserService
     {
@@ -54,7 +55,9 @@
                 UserName = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 Address = address,
-                Role = model.Role
+                Role = model.Role,
+                ProfileImage = await ImageToStringAsync(model.File),
+
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
@@ -90,7 +93,25 @@
             }
             return user.Id;
         }
+        private async Task<string> ImageToStringAsync(IFormFile file)
+        {
+            List<string> imageExtensions = new List<string>() { ".JPG", ".BMP", ".PNG" };
 
+
+            if (file != null) 
+            {
+                var extension = Path.GetExtension(file.FileName); 
+                if (imageExtensions.Contains(extension.ToUpperInvariant()))
+                {
+                    using var dataStream = new MemoryStream();
+                    await file.CopyToAsync(dataStream);
+                    byte[] imageBytes = dataStream.ToArray();
+                    string base64String = Convert.ToBase64String(imageBytes);
+                    return base64String;
+                }
+            }
+            return null;
+        }
         public async Task<DetailsUserViewModel?> GetUserDetailsAsync(string id)
         {
             DetailsUserViewModel? result = null;
@@ -99,15 +120,13 @@
 
             Dictionary<string,Project> neededInfoForProjects = new Dictionary<string,Project>();
 
-            List<string> userProjectsName = context.Users
-                .FirstOrDefault(x => x.Id == id).ProjectUsers.Select(x => x.Project.Name).ToList();
             List<Project> userProjects = context.Users
               .FirstOrDefault(x => x.Id == id).ProjectUsers.Select(x => x.Project).ToList();
 
 
-            for (int i = 0; i < userProjectsName.Count; i++)
+            for (int i = 0; i < userProjects.Count; i++)
             {
-                neededInfoForProjects.Add(userProjectsName[i], userProjects[i]);
+                neededInfoForProjects.Add(userProjects[i].Name, userProjects[i]);
             }
 
             if (user != null)
@@ -121,7 +140,8 @@
                     Email = user.Email != null ? user.Email : "n/a",
                     Address = user.Address.Name,
                     Town = user.Address.Town.Name,
-                    Department = user.Department != null ? user.Department : "n/a",
+                    Department = user.Department,
+                    Role = user.Role,
                     Projects = neededInfoForProjects
                 };     
             }

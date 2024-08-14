@@ -1,3 +1,79 @@
 ﻿@model DetailsUserViewModel
 
-<h1> Details</h1>
+<h1 class="details-header">User Details</h1>
+
+<div class="user-details-container">
+    <table class="user-details-table">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="field-label">First Name:</td>
+                <td>@Model.FirstName</td>
+            </tr>
+            <tr>
+                <td class="field-label">Last Name:</td>
+                <td>@Model.LastName</td>
+            </tr>
+            <tr>
+                <td class="field-label">Phone Number:</td>
+                <td>@Model.PhoneNumber</td>
+            </tr>
+            <tr>
+                <td class="field-label">Email:</td>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <td class="field-label">Address:</td>
+                <td>@Model.Address</td>
+            </tr>
+            <tr>
+                <td class="field-label">Town:</td>
+                <td>@Model.Town</td>
+            </tr>
+            @if (Model.Role == "Employee")
+            {
+                <tr>
+                    <td class="field-label">Department:</td>
+                    <td>@Model.Department</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .details-header {
+        font-size: 2em;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .user-details-container {
+        margin: 20px 0;
+    }
+    .user-details-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .user-details-table th,
+    .user-details-table td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+    .user-details-table th {
+        background-color: #f4f4f4;
+        color: #555;
+        font-weight: bold;
+    }
+    .user-details-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .field-label {
+        font-weight: bold;
+        color: #444;
+    }
+</style>

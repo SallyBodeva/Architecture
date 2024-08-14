@@ -18,6 +18,8 @@ namespace Architecture.ViewModels.Users
 
         public string? Department  { get; set; }
 
+        public string Role { get; set; }
+
 
         public Dictionary<string, Project>? Projects { get; set; } = new Dictionary<string, Project>();
     }

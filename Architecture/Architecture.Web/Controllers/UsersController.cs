@@ -1,6 +1,7 @@
 ﻿using Architecture.Services.Contracts;
 using Architecture.ViewModels.Users;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Architecture.Web.Controllers
 {
@@ -31,6 +32,19 @@ namespace Architecture.Web.Controllers
                 return RedirectToAction("Index","Home");
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details()
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userViewModel = await service.GetUserDetailsAsync(userId);
+            if (userViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(userViewModel);
         }
     }
 }
