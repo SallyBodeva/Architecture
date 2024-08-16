@@ -98,9 +98,9 @@
             List<string> imageExtensions = new List<string>() { ".JPG", ".BMP", ".PNG" };
 
 
-            if (file != null) 
+            if (file != null)
             {
-                var extension = Path.GetExtension(file.FileName); 
+                var extension = Path.GetExtension(file.FileName);
                 if (imageExtensions.Contains(extension.ToUpperInvariant()))
                 {
                     using var dataStream = new MemoryStream();
@@ -118,7 +118,7 @@
 
             User user = await userManager.FindByIdAsync(id);
 
-            Dictionary<string,Project> neededInfoForProjects = new Dictionary<string,Project>();
+            Dictionary<string, Project> neededInfoForProjects = new Dictionary<string, Project>();
 
             List<Project> userProjects = context.Users
               .FirstOrDefault(x => x.Id == id).ProjectUsers.Select(x => x.Project).ToList();
@@ -142,11 +142,49 @@
                     Town = user.Address.Town.Name,
                     Department = user.Department,
                     Role = user.Role,
+                    Image = user.ProfileImage,
                     Projects = neededInfoForProjects
-                };     
+                };
             }
             return result;
         }
-        //TODO
+        public async Task<EditUserViewModel?> GetUserToEditAsync(string id)
+        {
+            EditUserViewModel result = null;
+
+            User? user = await userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user != null)
+            {
+                result.Id = user.Id;
+                result.FirstName = user.FirstName;
+                result.LastName = user.LastName;
+                result.Email = user.Email;
+                result.PhoneNumber = user.PhoneNumber;
+                result.Department = user.Department;
+                result.Image = user.ProfileImage;
+            }
+
+            return result;
+        }
+
+        public async Task<string> EditUserAsync(EditUserViewModel model)
+        {
+            User? oldUser = await userManager.Users.FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            if (oldUser != null)
+            {
+                oldUser.FirstName = model.FirstName;
+                oldUser.LastName = model.LastName;
+                oldUser.Email = model.Email;
+                oldUser.PhoneNumber = model.PhoneNumber;
+                oldUser.Department = model.Department;
+                oldUser.ProfileImage = model.Image;
+
+                await userManager.UpdateAsync(oldUser);
+                await context.SaveChangesAsync();
+            }
+
+            return oldUser.Id;
+        }
     }
 }
