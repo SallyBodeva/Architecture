@@ -11,6 +11,10 @@ namespace Architecture.Services.Contracts
     {
         public Task<string> CreateUserAsync(CreateUserViewModel model);
         public Task<DetailsUserViewModel?> GetUserDetailsAsync(string id);
+
+        public Task<EditUserViewModel?> GetUserToEditAsync(string id);
+
+        public Task<string> EditUserAsync(EditUserViewModel model);
     }
 }
 

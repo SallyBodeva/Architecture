@@ -46,5 +46,28 @@ namespace Architecture.Web.Controllers
 
             return View(userViewModel);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit()
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userViewModel = await service.GetUserToEditAsync(userId);
+            if (userViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(userViewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await service.EditUserAsync(model);
+                return RedirectToAction("Details", "Users");
+            }
+            return View(model);
+        }
     }
 }

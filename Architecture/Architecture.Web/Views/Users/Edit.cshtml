@@ -1,0 +1,47 @@
+﻿@model EditUserViewModel
+
+
+<div class="parent">
+	<div class="centered">Centered Div
+        <form id="registerForm" asp-action="Edit" enctype="multipart/form-data" method="post">
+
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="FirstName" class="form-control" aria-required="true" />
+                <label asp-for="FirstName">First name</label>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="LastName" class="form-control" aria-required="true" />
+                <label asp-for="LastName">Last name</label>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="PhoneNumber" class="form-control" aria-required="true" />
+                <label asp-for="PhoneNumber">Phone number: </label>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control" aria-required="true" />
+                <label asp-for="Email">Email: </label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            @if (Model.Role=="Employee")
+            {
+                <div class="form-floating mb-3">
+                    <input asp-for="Department" class="form-control" aria-required="true" />
+                    <label asp-for="Department">Department: </label>
+                    <span asp-validation-for="Department" class="text-danger"></span>
+                </div>
+            }
+            <button type="submit" asp-controller="Users" asp-action="Edit" class="w-100 btn btn-lg btn-primary">Update</button>
+        </form>
+	</div>
+
+</div>

@@ -56,6 +56,7 @@
                 PhoneNumber = model.PhoneNumber,
                 Address = address,
                 Role = model.Role,
+                Department = model.Department,
                 ProfileImage = await ImageToStringAsync(model.File),
 
             };
@@ -150,7 +151,7 @@
         }
         public async Task<EditUserViewModel?> GetUserToEditAsync(string id)
         {
-            EditUserViewModel result = null;
+            EditUserViewModel result = new EditUserViewModel();
 
             User? user = await userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
             if (user != null)
@@ -161,7 +162,7 @@
                 result.Email = user.Email;
                 result.PhoneNumber = user.PhoneNumber;
                 result.Department = user.Department;
-                result.Image = user.ProfileImage;
+                result.Role = user.Role;
             }
 
             return result;
@@ -178,7 +179,7 @@
                 oldUser.Email = model.Email;
                 oldUser.PhoneNumber = model.PhoneNumber;
                 oldUser.Department = model.Department;
-                oldUser.ProfileImage = model.Image;
+                oldUser.ProfileImage = await ImageToStringAsync(model.Image);
 
                 await userManager.UpdateAsync(oldUser);
                 await context.SaveChangesAsync();
