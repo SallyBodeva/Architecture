@@ -178,6 +178,7 @@
                 oldUser.FirstName = model.FirstName;
                 oldUser.LastName = model.LastName;
                 oldUser.Email = model.Email;
+                oldUser.UserName = model.Email;
                 oldUser.PhoneNumber = model.PhoneNumber;
                 oldUser.Department = model.Department;
                 oldUser.ProfileImage = await ImageToStringAsync(model.Image);
@@ -189,7 +190,18 @@
 
             return oldUser.Id;
         }
+        public async Task<bool> DeleteUserAsync(string id)
+        {
+            User? user = await userManager.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-        // TODO
+            List<ProjectUser> unfinishedProjects = user.ProjectUsers.Where(x => x.Project.ReleaseDate < DateTime.UtcNow).ToList();
+
+            if (user != null && (unfinishedProjects.Count == 0))
+            {
+                var result = await userManager.DeleteAsync(user);
+                return result.Succeeded;
+            }
+            return false;
+        }
     }
 }
