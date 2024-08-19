@@ -69,5 +69,21 @@ namespace Architecture.Web.Controllers
             }
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> Delete()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed()
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var result = service.DeleteUserAsync(userId);
+            if (result.Result)
+            {
+                return View("Index");
+            }
+            return View(nameof(Details));
+        }
     }
 }

@@ -9,7 +9,8 @@
         <thead>
             <tr>
                 <th>Field</th>
-                <th>Data <a asp-action="Edit" asp-route-id="@Model?.Id"><i class="fa-regular fa-pen-to-square"></i></a></th>
+                <th>Data</th>
+                <th><a asp-action="Edit" asp-route-id="@Model?.Id"><i class="fa-regular fa-pen-to-square"></i></a><a asp-action="Delete"><i class="fa-solid fa-trash"></i></a></th>
             </tr>
         </thead>
         <tbody>

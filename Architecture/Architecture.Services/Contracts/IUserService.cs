@@ -15,6 +15,8 @@ namespace Architecture.Services.Contracts
         public Task<EditUserViewModel?> GetUserToEditAsync(string id);
 
         public Task<string> EditUserAsync(EditUserViewModel model);
+
+        public  Task<bool> DeleteUserAsync(string id);
     }
 }
 
