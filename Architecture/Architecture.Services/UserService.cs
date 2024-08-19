@@ -135,6 +135,7 @@
 
                 result = new DetailsUserViewModel()
                 {
+                    Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     PhoneNumber = user.PhoneNumber,
@@ -181,6 +182,7 @@
                 oldUser.Department = model.Department;
                 oldUser.ProfileImage = await ImageToStringAsync(model.Image);
 
+                context.Users.Update(oldUser);
                 await userManager.UpdateAsync(oldUser);
                 await context.SaveChangesAsync();
             }
