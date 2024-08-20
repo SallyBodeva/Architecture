@@ -35,8 +35,9 @@ namespace Architecture.Web
             builder.Services.AddControllersWithViews();
 
 			builder.Services.AddTransient<IUserService, UserService>();
+            builder.Services.AddTransient<IProjectService, ProjectService>();
 
-			var app = builder.Build();
+            var app = builder.Build();
 
 
             // Configure the HTTP request pipeline.
