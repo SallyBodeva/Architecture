@@ -82,9 +82,6 @@ namespace Architecture.Web.Controllers
             return View(project);
         }
 
-        // POST: Projects/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,BuilindType,Capacity,ReleaseDate,TotalFloorArea,NumberOfFloors,AddressId")] Project project)
