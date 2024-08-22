@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Identity;
     using Architecture.Data.Models;
     using Architecture.ViewModels.Projects;
+    using Microsoft.EntityFrameworkCore;
 
     public class ProjectService : IProjectService
     {
@@ -48,8 +49,23 @@
             await context.Projects.AddAsync(project);
             await context.SaveChangesAsync();
 
+            User? user = await this.context.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+
+            if (user != null && project != null)
+            {
+                ProjectUser match = new ProjectUser()
+                {
+                    UserId = user.Id,
+                    ProjectId = project.Id,
+                    Type = "Client - Company"
+                };
+                this.context.ProjectsUsers.Add(match);
+                await this.context.SaveChangesAsync();
+            }
+
             return project.Id;
 
         }
+
     }
 }

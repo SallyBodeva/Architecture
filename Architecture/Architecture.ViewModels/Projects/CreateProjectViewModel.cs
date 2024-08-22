@@ -8,6 +8,7 @@ namespace Architecture.ViewModels.Projects
 {
     public class CreateProjectViewModel
     {
+        public string? UserId { get; set; }
         public string Name { get; set; }
         public string BuildingType { get; set; }
 

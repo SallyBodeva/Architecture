@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Architecture.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240814101003_Initial")]
+    [Migration("20240822210210_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Architecture.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -93,11 +93,15 @@ namespace Architecture.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ProjectId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProjectUser");
+                    b.ToTable("ProjectsUsers");
                 });
 
             modelBuilder.Entity("Architecture.Data.Models.Town", b =>

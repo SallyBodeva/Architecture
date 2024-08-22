@@ -42,5 +42,10 @@ namespace Architecture.Data
         public virtual DbSet<Address> Addresses{ get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Town> Towns { get; set; }
+
+        public virtual DbSet<ProjectUser> ProjectsUsers { get; set; }
+
+
+
     }
 }

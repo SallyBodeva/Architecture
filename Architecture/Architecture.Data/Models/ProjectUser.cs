@@ -12,6 +12,8 @@ namespace Architecture.Data.Models
         public string ProjectId { get; set; }
 
         public virtual User User { get; set; }
-        public virtual Project  Project { get; set; }
+        public virtual Project Project { get; set; }
+
+        public string Type { get; set; }
     }
 }

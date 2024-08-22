@@ -9,6 +9,7 @@ using Architecture.Data;
 using Architecture.Data.Models;
 using Architecture.ViewModels.Projects;
 using Architecture.Services.Contracts;
+using System.Security.Claims;
 
 namespace Architecture.Web.Controllers
 {
@@ -59,8 +60,10 @@ namespace Architecture.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                projectService.CreateProjectAsync(model);
-                return RedirectToAction("Index","Home");
+                model.UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                await projectService.CreateProjectAsync(model);
+
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }

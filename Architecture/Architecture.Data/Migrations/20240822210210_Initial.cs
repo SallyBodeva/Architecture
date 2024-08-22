@@ -224,23 +224,24 @@ namespace Architecture.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectUser",
+                name: "ProjectsUsers",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ProjectId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectUser", x => new { x.ProjectId, x.UserId });
+                    table.PrimaryKey("PK_ProjectsUsers", x => new { x.ProjectId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_ProjectUser_AspNetUsers_UserId",
+                        name: "FK_ProjectsUsers_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProjectUser_Projects_ProjectId",
+                        name: "FK_ProjectsUsers_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -303,8 +304,8 @@ namespace Architecture.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectUser_UserId",
-                table: "ProjectUser",
+                name: "IX_ProjectsUsers_UserId",
+                table: "ProjectsUsers",
                 column: "UserId");
         }
 
@@ -327,7 +328,7 @@ namespace Architecture.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ProjectUser");
+                name: "ProjectsUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
