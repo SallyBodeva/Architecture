@@ -25,10 +25,12 @@ namespace Architecture.Web.Controllers
         }
 
         // GET: Projects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IndexProjectsViewModel model)
         {
-            var applicationDbContext = _context.Projects.Include(p => p.Address);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            model = await projectService.GetMyProjectsAsync(model, userId);
+
+            return View(model);
         }
 
         // GET: Projects/Details/5

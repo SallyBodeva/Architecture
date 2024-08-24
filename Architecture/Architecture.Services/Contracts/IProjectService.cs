@@ -9,6 +9,7 @@ namespace Architecture.Services.Contracts
 {
     public interface IProjectService
     {
+        public Task<IndexProjectsViewModel> GetMyProjectsAsync(IndexProjectsViewModel model, string userId);
         public Task<string> CreateProjectAsync(CreateProjectViewModel model);
     }
 }

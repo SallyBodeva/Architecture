@@ -19,6 +19,35 @@
             this.userManager = userManager;
         }
 
+        public async Task<IndexProjectsViewModel> GetMyProjectsAsync(IndexProjectsViewModel model,string userId)
+        {
+            if (model == null)
+            {
+                model = new IndexProjectsViewModel();
+            }
+            model.ElementsCount = await GetProjectCountAsync();
+            model.Projects = await context
+            .ProjectsUsers
+                .Skip((model.Page - 1) * model.ItemsPerPage)
+                .Take(model.ItemsPerPage)
+                .Where(x=>x.UserId==userId)
+                .Select(x => new IndexProjectViewModel()
+                {
+                    Id = x.Project.Id,
+                    Name = x.Project.Name,
+                    BuildingType = x.Project.BuilindType,
+                    ReleaseDate = x.Project.ReleaseDate.Value.ToShortDateString(),
+
+                })
+                .ToListAsync();
+
+            return model;
+        }
+        public async Task<int> GetProjectCountAsync()
+        {
+            return await context.Projects.CountAsync();
+        }
+
         public async Task<string> CreateProjectAsync(CreateProjectViewModel model)
         {
             Address address = context.Addresses.FirstOrDefault(x => x.Name == model.Name);
