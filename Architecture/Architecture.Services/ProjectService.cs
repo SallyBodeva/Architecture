@@ -95,6 +95,36 @@
             return project.Id;
 
         }
+        public async Task<DetailsProjectViewModel> GetProjectDetails(string id)
+        {
+            Project? project = await this.context.Projects.FirstOrDefaultAsync(p => p.Id == id);
+            DetailsProjectViewModel model = null;
 
+            if (project != null)
+            {
+                model = new DetailsProjectViewModel() 
+                {
+                    Name = project.Name,
+                    BuldingType = project.BuilindType,
+                    Capacity = project.Capacity,
+                    ReleaseDate = project.ReleaseDate.Value.ToShortDateString(),
+                    TotalFloorArea = project.TotalFloorArea,
+                    NumberOfFloors = project.NumberOfFloors,
+                    AddressName = project.Address.Name,
+                    Town = project.Address.Town.Name
+                };
+
+            }
+            return model;
+        }
+        public async Task<int> DeleteProject(string id)
+        {
+            Project p = await context.Projects.Where(x => x.Id == id).FirstOrDefaultAsync();
+            ProjectUser connection = await context.ProjectsUsers.FirstOrDefaultAsync(x => x.ProjectId == p.Id);
+
+            context.Remove(connection);
+            context.Remove(p);
+            return await context.SaveChangesAsync();
+        }
     }
 }
