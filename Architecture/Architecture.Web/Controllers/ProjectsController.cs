@@ -68,7 +68,7 @@ namespace Architecture.Web.Controllers
             return View();
         }
 
-      
+
 
         // GET: Projects/Delete/5
         public async Task<IActionResult> Delete(string id)
@@ -98,8 +98,8 @@ namespace Architecture.Web.Controllers
             {
                 return NotFound();
             }
-            projectService.DeleteProject(id);
-            return RedirectToAction(nameof(Index),"Home");
+            await projectService.DeleteProject(id);
+            return RedirectToAction(nameof(Index), "Home");
         }
     }
 }

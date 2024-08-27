@@ -5,14 +5,22 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
+        <div class="dropdown">
+            <img src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" width="50px" height="50px" alt="Alternate Text" />
+            <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hello @User.Identity.Name!
+            </button>
+            <ul class="dropdown-menu">
+                <p>
+                   @User.Identity.Name <br>
+                </p>
+
+                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details">Details</a>
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Log out</button>
+                </form>
+            </ul>
+        </div>
 }
 else
 {
@@ -24,3 +32,12 @@ else
     </li>
 }
 </ul>
+<style>
+    .dropdown-menu {
+        text-align: center; /* Center content inside dropdown */
+    }
+
+        .dropdown-menu form {
+            display: inline-block; /* Ensure the form containing the button centers properly */
+        }
+</style>

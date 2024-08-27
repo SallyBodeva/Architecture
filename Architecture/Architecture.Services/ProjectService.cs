@@ -19,7 +19,7 @@
             this.userManager = userManager;
         }
 
-        public async Task<IndexProjectsViewModel> GetMyProjectsAsync(IndexProjectsViewModel model,string userId)
+        public async Task<IndexProjectsViewModel> GetMyProjectsAsync(IndexProjectsViewModel model, string userId)
         {
             if (model == null)
             {
@@ -30,7 +30,7 @@
             .ProjectsUsers
                 .Skip((model.Page - 1) * model.ItemsPerPage)
                 .Take(model.ItemsPerPage)
-                .Where(x=>x.UserId==userId)
+                .Where(x => x.UserId == userId)
                 .Select(x => new IndexProjectViewModel()
                 {
                     Id = x.Project.Id,
@@ -102,7 +102,7 @@
 
             if (project != null)
             {
-                model = new DetailsProjectViewModel() 
+                model = new DetailsProjectViewModel()
                 {
                     Name = project.Name,
                     BuldingType = project.BuilindType,
@@ -119,11 +119,11 @@
         }
         public async Task<int> DeleteProject(string id)
         {
-            Project p = await context.Projects.Where(x => x.Id == id).FirstOrDefaultAsync();
+            Project p = await context.Projects.FirstOrDefaultAsync(x=>x.Id==id);
             ProjectUser connection = await context.ProjectsUsers.FirstOrDefaultAsync(x => x.ProjectId == p.Id);
-
-            context.Remove(connection);
-            context.Remove(p);
+            
+            context.ProjectsUsers.Remove(connection);
+            context.Projects.Remove(p);
             return await context.SaveChangesAsync();
         }
     }
