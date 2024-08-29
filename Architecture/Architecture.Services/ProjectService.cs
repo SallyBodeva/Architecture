@@ -126,5 +126,7 @@
             context.Projects.Remove(p);
             return await context.SaveChangesAsync();
         }
+
+        // TODO
     }
 }
