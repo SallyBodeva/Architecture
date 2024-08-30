@@ -119,13 +119,12 @@
         }
         public async Task<int> DeleteProject(string id)
         {
-            Project p = await context.Projects.FirstOrDefaultAsync(x=>x.Id==id);
+            Project p = await context.Projects.FirstOrDefaultAsync(x => x.Id == id);
             ProjectUser connection = await context.ProjectsUsers.FirstOrDefaultAsync(x => x.ProjectId == p.Id);
-            
+
             context.ProjectsUsers.Remove(connection);
             context.Projects.Remove(p);
             return await context.SaveChangesAsync();
         }
-
     }
 }
