@@ -5,17 +5,18 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+        var currentUser = await UserManager.GetUserAsync(User);
         <div class="dropdown">
             <img src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" width="50px" height="50px" alt="Alternate Text" />
             <button class="btn btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Hello @User.Identity.Name!
+                Hello @currentUser.UserName!
             </button>
             <ul class="dropdown-menu">
-                <p>
-                   @User.Identity.Name <br>
+                <p style="font-family:'Times New Roman', Times, serif; font-size:larger">
+                   @User.Identity.Name <br> (@currentUser.FirstName @currentUser.LastName)
                 </p>
 
-                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details">Details</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details">My profile</a>
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="nav-link btn btn-link text-dark">Log out</button>
                 </form>
@@ -36,7 +37,7 @@ else
     .dropdown-menu {
         text-align: center; /* Center content inside dropdown */
     }
-
+   
         .dropdown-menu form {
             display: inline-block; /* Ensure the form containing the button centers properly */
         }
