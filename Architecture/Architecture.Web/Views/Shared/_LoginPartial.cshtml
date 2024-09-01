@@ -17,6 +17,7 @@
                 </p>
 
                 <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details">My profile</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Projects" asp-action="MyProjects">My projects</a>
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="nav-link btn btn-link text-dark">Log out</button>
                 </form>
